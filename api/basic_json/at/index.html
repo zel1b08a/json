@@ -286,7 +286,7 @@
 <span class=w>        </span><span class=c1>// try to read from a nonexisting key using string_view</span>
 <span class=w>        </span><span class=n>std</span><span class=o>::</span><span class=n>cout</span><span class=w> </span><span class=o>&lt;&lt;</span><span class=w> </span><span class=n>object</span><span class=p>.</span><span class=n>at</span><span class=p>(</span><span class=s>&quot;the fast&quot;</span><span class=n>sv</span><span class=p>)</span><span class=w> </span><span class=o>&lt;&lt;</span><span class=w> </span><span class=sc>&#39;\n&#39;</span><span class=p>;</span>
 <span class=w>    </span><span class=p>}</span>
-<span class=w>    </span><span class=k>catch</span><span class=w> </span><span class=p>(</span><span class=k>const</span><span class=w> </span><span class=n>json</span><span class=o>::</span><span class=n>out_of_range</span><span class=p>)</span>
+<span class=w>    </span><span class=k>catch</span><span class=w> </span><span class=p>(</span><span class=k>const</span><span class=w> </span><span class=n>json</span><span class=o>::</span><span class=n>out_of_range</span><span class=o>&amp;</span><span class=w> </span><span class=n>e</span><span class=p>)</span>
 <span class=w>    </span><span class=p>{</span>
 <span class=w>        </span><span class=n>std</span><span class=o>::</span><span class=n>cout</span><span class=w> </span><span class=o>&lt;&lt;</span><span class=w> </span><span class=s>&quot;out of range&quot;</span><span class=w> </span><span class=o>&lt;&lt;</span><span class=w> </span><span class=sc>&#39;\n&#39;</span><span class=p>;</span>
 <span class=w>    </span><span class=p>}</span>
