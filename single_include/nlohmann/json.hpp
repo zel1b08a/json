@@ -4904,7 +4904,14 @@ template < typename BasicJsonType, typename T, std::size_t... Idx >
 std::array<T, sizeof...(Idx)> from_json_inplace_array_impl(BasicJsonType&& j,
         identity_tag<std::array<T, sizeof...(Idx)>> /*unused*/, index_sequence<Idx...> /*unused*/)
 {
-    return { { std::forward<BasicJsonType>(j).at(Idx).template get<T>()... } };
+    return { { j.at(Idx).template get < T&& > ()... } };
+}
+
+template < typename BasicJsonType, typename T, std::size_t... Idx >
+std::array<T, sizeof...(Idx)> from_json_inplace_array_impl(const BasicJsonType& j,
+        identity_tag<std::array<T, sizeof...(Idx)>> /*unused*/, index_sequence<Idx...> /*unused*/)
+{
+    return { { j.at(Idx).template get<T>()... } };
 }
 
 template < typename BasicJsonType, typename T, std::size_t N >
