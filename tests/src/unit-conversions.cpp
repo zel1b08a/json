@@ -1515,9 +1515,9 @@ NLOHMANN_JSON_SERIALIZE_ENUM(cards,
 
 enum TaskState
 {
-    TS_STOPPED,
-    TS_RUNNING,
-    TS_COMPLETED,
+    TS_STOPPED = 0,
+    TS_RUNNING = 1,
+    TS_COMPLETED = 2,
     TS_INVALID = -1,
 };
 

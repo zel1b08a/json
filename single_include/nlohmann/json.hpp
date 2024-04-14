@@ -5008,6 +5008,12 @@ inline void from_json(const BasicJsonType& j, ArithmeticType& val)
 }
 
 template<typename BasicJsonType, typename... Args, std::size_t... Idx>
+std::tuple<Args...> from_json_tuple_impl_base(const BasicJsonType& j, index_sequence<Idx...> /*unused*/)
+{
+    return std::make_tuple(j.at(Idx).template get<Args>()...);
+}
+
+template<typename BasicJsonType, typename... Args, std::size_t... Idx>
 std::tuple<Args...> from_json_tuple_impl_base(BasicJsonType&& j, index_sequence<Idx...> /*unused*/)
 {
     return std::make_tuple(std::forward<BasicJsonType>(j).at(Idx).template get<Args>()...);
