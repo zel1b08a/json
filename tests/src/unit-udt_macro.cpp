@@ -498,6 +498,32 @@ TEST_CASE_TEMPLATE("Serialization/deserialization via NLOHMANN_DEFINE_DERIVED_TY
     }
 }
 
+TEST_CASE_TEMPLATE("Serialization/deserialization via NLOHMANN_DEFINE_DERIVED_TYPE_INTRUSIVE and NLOHMANN_DEFINE_DERIVED_TYPE_NON_INTRUSIVE", T,
+                   persons::derived_person_with_private_data,
+                   persons::derived_person_without_private_data_1,
+                   persons::derived_person_without_private_data_2)
+{
+    SECTION("person")
+    {
+        // serialization
+        T p1("Erik", 1, {{"haircuts", 2}}, "red");
+        CHECK(json(p1).dump() == "{\"age\":1,\"hair_color\":\"red\",\"metadata\":{\"haircuts\":2},\"name\":\"Erik\"}");
+
+        // deserialization
+        auto p2 = json(p1).get<T>();
+        CHECK(p2 == p1);
+
+        // roundtrip
+        CHECK(T(json(p1)) == p1);
+        CHECK(json(T(json(p1))) == json(p1));
+
+        // check exception in case of missing field
+        json j = json(p1);
+        j.erase("age");
+        CHECK_THROWS_WITH_AS(j.get<T>(), "[json.exception.out_of_range.403] key 'age' not found", json::out_of_range);
+    }
+}
+
 TEST_CASE_TEMPLATE("Serialization/deserialization via NLOHMANN_DEFINE_TYPE_INTRUSIVE_WITH_DEFAULT and NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT", T,
                    persons::person_with_private_data_2,
                    persons::person_without_private_data_3)
