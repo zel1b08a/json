@@ -239,7 +239,7 @@ boundaries compute_boundaries(FloatType value)
     //                       v-     m-     v             m+            v+
 
     const bool lower_boundary_is_closer = F == 0 && E > 1;
-    const diyfp m_plus = diyfp(2 * v.f + 1, v.e - 1);
+    const diyfp m_plus = diyfp((2 * v.f) + 1, v.e - 1);
     const diyfp m_minus = lower_boundary_is_closer
                           ? diyfp(4 * v.f - 1, v.e - 2)  // (B)
                           : diyfp(2 * v.f - 1, v.e - 1); // (A)
