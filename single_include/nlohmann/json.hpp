@@ -7037,9 +7037,9 @@ class json_sax_dom_callback_parser
     using parse_event_t = typename BasicJsonType::parse_event_t;
 
     json_sax_dom_callback_parser(BasicJsonType& r,
-                                 const parser_callback_t& cb,
+                                 const parser_callback_t cb,
                                  const bool allow_exceptions_ = true)
-        : root(r), callback(cb), allow_exceptions(allow_exceptions_)
+        : root(r), callback(std::move(cb)), allow_exceptions(allow_exceptions_)
     {
         keep_stack.push_back(true);
     }
@@ -14991,7 +14991,7 @@ template<typename CharType> struct output_adapter_protocol
 {
     virtual void write_character(CharType c) = 0;
     virtual void write_characters(const CharType* s, std::size_t length) = 0;
-    virtual ~output_adapter_protocol();
+    virtual ~output_adapter_protocol() = default;
 
     output_adapter_protocol() = default;
     output_adapter_protocol(const output_adapter_protocol&) = default;
@@ -14999,10 +14999,6 @@ template<typename CharType> struct output_adapter_protocol
     output_adapter_protocol& operator=(const output_adapter_protocol&) = default;
     output_adapter_protocol& operator=(output_adapter_protocol&&) noexcept = default;
 };
-
-// explicitly default the destructor to fix portability-template-virtual-member-function
-template<typename CharType>
-output_adapter_protocol<CharType>::~output_adapter_protocol() = default;
 
 /// a type to simplify interfaces
 template<typename CharType>
@@ -19483,7 +19479,7 @@ class basic_json // NOLINT(cppcoreguidelines-special-member-functions,hicpp-spec
     template<typename InputAdapterType>
     static ::nlohmann::detail::parser<basic_json, InputAdapterType> parser(
         InputAdapterType adapter,
-        detail::parser_callback_t<basic_json>cb = nullptr,
+        detail::parser_callback_t<basic_json>& cb = nullptr,
         const bool allow_exceptions = true,
         const bool ignore_comments = false
                                  )
@@ -20381,7 +20377,7 @@ class basic_json // NOLINT(cppcoreguidelines-special-member-functions,hicpp-spec
     template < class InputIT, typename std::enable_if <
                    std::is_same<InputIT, typename basic_json_t::iterator>::value ||
                    std::is_same<InputIT, typename basic_json_t::const_iterator>::value, int >::type = 0 >
-    basic_json(InputIT first, InputIT last)
+    basic_json(InputIT first, InputIT last) // NOLINT(performance-unnecessary-value-param)
     {
         JSON_ASSERT(first.m_object != nullptr);
         JSON_ASSERT(last.m_object != nullptr);

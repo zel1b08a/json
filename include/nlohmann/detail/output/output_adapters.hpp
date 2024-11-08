@@ -31,7 +31,7 @@ template<typename CharType> struct output_adapter_protocol
 {
     virtual void write_character(CharType c) = 0;
     virtual void write_characters(const CharType* s, std::size_t length) = 0;
-    virtual ~output_adapter_protocol();
+    virtual ~output_adapter_protocol() = default;
 
     output_adapter_protocol() = default;
     output_adapter_protocol(const output_adapter_protocol&) = default;
@@ -39,10 +39,6 @@ template<typename CharType> struct output_adapter_protocol
     output_adapter_protocol& operator=(const output_adapter_protocol&) = default;
     output_adapter_protocol& operator=(output_adapter_protocol&&) noexcept = default;
 };
-
-// explicitly default the destructor to fix portability-template-virtual-member-function
-template<typename CharType>
-output_adapter_protocol<CharType>::~output_adapter_protocol() = default;
 
 /// a type to simplify interfaces
 template<typename CharType>
