@@ -353,7 +353,7 @@ class json_sax_dom_callback_parser
     using parse_event_t = typename BasicJsonType::parse_event_t;
 
     json_sax_dom_callback_parser(BasicJsonType& r,
-                                 const parser_callback_t cb,
+                                 const parser_callback_t& cb,
                                  const bool allow_exceptions_ = true)
         : root(r), callback(cb), allow_exceptions(allow_exceptions_)
     {

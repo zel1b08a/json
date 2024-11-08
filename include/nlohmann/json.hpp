@@ -2424,7 +2424,7 @@ class basic_json // NOLINT(cppcoreguidelines-special-member-functions,hicpp-spec
     template < class IteratorType, detail::enable_if_t <
                    std::is_same<IteratorType, typename basic_json_t::iterator>::value ||
                    std::is_same<IteratorType, typename basic_json_t::const_iterator>::value, int > = 0 >
-    IteratorType erase(IteratorType pos)
+    IteratorType erase(IteratorType pos) // NOLINT(performance-unnecessary-value-param)
     {
         // make sure iterator fits the current value
         if (JSON_HEDLEY_UNLIKELY(this != pos.m_object))
@@ -4011,7 +4011,7 @@ class basic_json // NOLINT(cppcoreguidelines-special-member-functions,hicpp-spec
     template<typename InputType>
     JSON_HEDLEY_WARN_UNUSED_RESULT
     static basic_json parse(InputType&& i,
-                            const parser_callback_t cb = nullptr,
+                            const parser_callback_t& cb = nullptr,
                             const bool allow_exceptions = true,
                             const bool ignore_comments = false)
     {
@@ -4026,7 +4026,7 @@ class basic_json // NOLINT(cppcoreguidelines-special-member-functions,hicpp-spec
     JSON_HEDLEY_WARN_UNUSED_RESULT
     static basic_json parse(IteratorType first,
                             IteratorType last,
-                            const parser_callback_t cb = nullptr,
+                            const parser_callback_t& cb = nullptr,
                             const bool allow_exceptions = true,
                             const bool ignore_comments = false)
     {

@@ -7037,7 +7037,7 @@ class json_sax_dom_callback_parser
     using parse_event_t = typename BasicJsonType::parse_event_t;
 
     json_sax_dom_callback_parser(BasicJsonType& r,
-                                 const parser_callback_t cb,
+                                 const parser_callback_t& cb,
                                  const bool allow_exceptions_ = true)
         : root(r), callback(cb), allow_exceptions(allow_exceptions_)
     {
@@ -12283,7 +12283,7 @@ class parser
   public:
     /// a parser reading from an input adapter
     explicit parser(InputAdapterType&& adapter,
-                    const parser_callback_t<BasicJsonType> cb = nullptr,
+                    const parser_callback_t<BasicJsonType>& cb = nullptr,
                     const bool allow_exceptions_ = true,
                     const bool skip_comments = false)
         : callback(cb)
@@ -14991,7 +14991,7 @@ template<typename CharType> struct output_adapter_protocol
 {
     virtual void write_character(CharType c) = 0;
     virtual void write_characters(const CharType* s, std::size_t length) = 0;
-    virtual ~output_adapter_protocol() = default;
+    virtual ~output_adapter_protocol();
 
     output_adapter_protocol() = default;
     output_adapter_protocol(const output_adapter_protocol&) = default;
@@ -14999,6 +14999,10 @@ template<typename CharType> struct output_adapter_protocol
     output_adapter_protocol& operator=(const output_adapter_protocol&) = default;
     output_adapter_protocol& operator=(output_adapter_protocol&&) noexcept = default;
 };
+
+// explicitly default the destructor to fix portability-template-virtual-member-function
+template<typename CharType>
+output_adapter_protocol<CharType>::~output_adapter_protocol() = default;
 
 /// a type to simplify interfaces
 template<typename CharType>
@@ -21772,7 +21776,7 @@ class basic_json // NOLINT(cppcoreguidelines-special-member-functions,hicpp-spec
     template < class IteratorType, detail::enable_if_t <
                    std::is_same<IteratorType, typename basic_json_t::iterator>::value ||
                    std::is_same<IteratorType, typename basic_json_t::const_iterator>::value, int > = 0 >
-    IteratorType erase(IteratorType pos)
+    IteratorType erase(IteratorType pos) // NOLINT(performance-unnecessary-value-param)
     {
         // make sure iterator fits the current value
         if (JSON_HEDLEY_UNLIKELY(this != pos.m_object))
@@ -23359,7 +23363,7 @@ class basic_json // NOLINT(cppcoreguidelines-special-member-functions,hicpp-spec
     template<typename InputType>
     JSON_HEDLEY_WARN_UNUSED_RESULT
     static basic_json parse(InputType&& i,
-                            const parser_callback_t cb = nullptr,
+                            const parser_callback_t& cb = nullptr,
                             const bool allow_exceptions = true,
                             const bool ignore_comments = false)
     {
@@ -23374,7 +23378,7 @@ class basic_json // NOLINT(cppcoreguidelines-special-member-functions,hicpp-spec
     JSON_HEDLEY_WARN_UNUSED_RESULT
     static basic_json parse(IteratorType first,
                             IteratorType last,
-                            const parser_callback_t cb = nullptr,
+                            const parser_callback_t& cb = nullptr,
                             const bool allow_exceptions = true,
                             const bool ignore_comments = false)
     {
