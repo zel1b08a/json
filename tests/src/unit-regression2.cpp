@@ -43,7 +43,7 @@ using ordered_json = nlohmann::ordered_json;
 #endif
 
 // for #4440
-#if JSON_HAS_RANGES
+#ifdef JSON_HAS_RANGES
     #include <ranges>
 #endif
 
