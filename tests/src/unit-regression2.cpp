@@ -953,7 +953,7 @@ TEST_CASE("regression tests 2")
         });
         json j = {1, 2, 3};
         auto filtered = j | noOpFilter;
-        CHECK(j == *filtered.begin());
+        CHECK(*filtered.begin() == 1);
     }
 #endif
 }
