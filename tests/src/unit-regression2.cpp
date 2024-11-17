@@ -42,6 +42,11 @@ using ordered_json = nlohmann::ordered_json;
     #endif
 #endif
 
+// for #4440
+#if JSON_HAS_RANGES
+    #include <ranges>
+#endif
+
 // NLOHMANN_JSON_SERIALIZE_ENUM uses a static std::pair
 DOCTEST_CLANG_SUPPRESS_WARNING_PUSH
 DOCTEST_CLANG_SUPPRESS_WARNING("-Wexit-time-destructors")
@@ -938,6 +943,19 @@ TEST_CASE("regression tests 2")
         CHECK(p.x == 1);
         CHECK(p.y == 2);
     }
+
+#ifdef JSON_HAS_RANGES
+    SECTION("issue 4440")
+    {
+        auto noOpFilter = std::views::filter([](auto&&)
+        {
+            return true;
+        });
+        json j = {1, 2, 3};
+        auto filtered = j | noOpFilter;
+        CHECK(j == *filtered.begin());
+    }
+#endif
 }
 
 DOCTEST_CLANG_SUPPRESS_WARNING_POP
