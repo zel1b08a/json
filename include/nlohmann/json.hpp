@@ -4011,7 +4011,7 @@ class basic_json // NOLINT(cppcoreguidelines-special-member-functions,hicpp-spec
     template<typename InputType>
     JSON_HEDLEY_WARN_UNUSED_RESULT
     static basic_json parse(InputType&& i,
-                            parser_callback_t& cb = nullptr,
+                            parser_callback_t cb = nullptr,
                             const bool allow_exceptions = true,
                             const bool ignore_comments = false)
     {
@@ -4026,7 +4026,7 @@ class basic_json // NOLINT(cppcoreguidelines-special-member-functions,hicpp-spec
     JSON_HEDLEY_WARN_UNUSED_RESULT
     static basic_json parse(IteratorType first,
                             IteratorType last,
-                            parser_callback_t& cb = nullptr,
+                            parser_callback_t cb = nullptr,
                             const bool allow_exceptions = true,
                             const bool ignore_comments = false)
     {

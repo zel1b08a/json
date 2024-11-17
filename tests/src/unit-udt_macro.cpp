@@ -472,7 +472,7 @@ TEST_CASE_TEMPLATE("Serialization/deserialization via NLOHMANN_DEFINE_TYPE_INTRU
     }
 }
 
-TEST_CASE_TEMPLATE("Serialization/deserialization via NLOHMANN_DEFINE_DERIVED_TYPE_INTRUSIVE and NLOHMANN_DEFINE_DERIVED_TYPE_NON_INTRUSIVE", T,
+TEST_CASE_TEMPLATE("Serialization/deserialization via NLOHMANN_DEFINE_DERIVED_TYPE_INTRUSIVE and NLOHMANN_DEFINE_DERIVED_TYPE_NON_INTRUSIVE", T, // NOLINT(readability-math-missing-parentheses)
                    persons::derived_person_with_private_data,
                    persons::derived_person_without_private_data_1,
                    persons::derived_person_without_private_data_2)
