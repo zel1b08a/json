@@ -109,7 +109,6 @@ set(CLANG_CXXFLAGS
     -Wno-padded
     -Wno-covered-switch-default
     -Wno-unsafe-buffer-usage
-    -Wno-weak-vtables
     -Wno-reserved-identifier
 )
 
