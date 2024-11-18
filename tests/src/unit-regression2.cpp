@@ -233,7 +233,7 @@ inline void from_json(const nlohmann::json& j, FooBar& fb) // NOLINT(misc-use-in
 struct for_3171_base // NOLINT(cppcoreguidelines-special-member-functions)
 {
     for_3171_base(const std::string& /*unused*/ = {}) {}
-    virtual ~for_3171_base() = default;
+    virtual ~for_3171_base();
 
     virtual void _from_json(const json& j)
     {
@@ -243,11 +243,16 @@ struct for_3171_base // NOLINT(cppcoreguidelines-special-member-functions)
     std::string str{}; // NOLINT(readability-redundant-member-init)
 };
 
+for_3171_base::~for_3171_base() = default;
+
 struct for_3171_derived : public for_3171_base
 {
     for_3171_derived() = default;
+    ~for_3171_derived() override;
     explicit for_3171_derived(const std::string& /*unused*/) { }
 };
+
+for_3171_derived::~for_3171_derived() = default;
 
 inline void from_json(const json& j, for_3171_base& tb) // NOLINT(misc-use-internal-linkage)
 {

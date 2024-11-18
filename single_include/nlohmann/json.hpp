@@ -4414,6 +4414,8 @@ class exception : public std::exception
     /// the id of the exception
     const int id; // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 
+    ~exception() override;
+
   protected:
     JSON_HEDLEY_NON_NULL(3)
     exception(int id_, const char* what_arg) : id(id_), m(what_arg) {} // NOLINT(bugprone-throw-keyword-missing)
@@ -4498,6 +4500,9 @@ class exception : public std::exception
     std::runtime_error m;
 };
 
+// out-of-line definition for exception to fix weak-vtables warning
+exception::~exception() = default;
+
 /// @brief exception indicating a parse error
 /// @sa https://json.nlohmann.me/api/basic_json/parse_error/
 class parse_error : public exception
@@ -4540,6 +4545,8 @@ class parse_error : public exception
     */
     const std::size_t byte;
 
+    ~parse_error() override;
+
   private:
     parse_error(int id_, std::size_t byte_, const char* what_arg)
         : exception(id_, what_arg), byte(byte_) {}
@@ -4550,6 +4557,9 @@ class parse_error : public exception
                       ", column ", std::to_string(pos.chars_read_current_line));
     }
 };
+
+// out-of-line definition for exception to fix weak-vtables warning
+parse_error::~parse_error() = default;
 
 /// @brief exception indicating errors with iterators
 /// @sa https://json.nlohmann.me/api/basic_json/invalid_iterator/
@@ -4563,11 +4573,16 @@ class invalid_iterator : public exception
         return {id_, w.c_str()};
     }
 
+    ~invalid_iterator() override;
+
   private:
     JSON_HEDLEY_NON_NULL(3)
     invalid_iterator(int id_, const char* what_arg)
         : exception(id_, what_arg) {}
 };
+
+// out-of-line definition for exception to fix weak-vtables warning
+invalid_iterator::~invalid_iterator() = default;
 
 /// @brief exception indicating executing a member function with a wrong type
 /// @sa https://json.nlohmann.me/api/basic_json/type_error/
@@ -4581,10 +4596,15 @@ class type_error : public exception
         return {id_, w.c_str()};
     }
 
+    ~type_error() override;
+
   private:
     JSON_HEDLEY_NON_NULL(3)
     type_error(int id_, const char* what_arg) : exception(id_, what_arg) {}
 };
+
+// out-of-line definition for exception to fix weak-vtables warning
+type_error::~type_error() = default;
 
 /// @brief exception indicating access out of the defined range
 /// @sa https://json.nlohmann.me/api/basic_json/out_of_range/
@@ -4598,10 +4618,15 @@ class out_of_range : public exception
         return {id_, w.c_str()};
     }
 
+    ~out_of_range() override;
+
   private:
     JSON_HEDLEY_NON_NULL(3)
     out_of_range(int id_, const char* what_arg) : exception(id_, what_arg) {}
 };
+
+// out-of-line definition for exception to fix weak-vtables warning
+out_of_range::~out_of_range() = default;
 
 /// @brief exception indicating other library errors
 /// @sa https://json.nlohmann.me/api/basic_json/other_error/
@@ -4615,10 +4640,15 @@ class other_error : public exception
         return {id_, w.c_str()};
     }
 
+    ~other_error() override;
+
   private:
     JSON_HEDLEY_NON_NULL(3)
     other_error(int id_, const char* what_arg) : exception(id_, what_arg) {}
 };
+
+// out-of-line definition for exception to fix weak-vtables warning
+other_error::~other_error() = default;
 
 }  // namespace detail
 NLOHMANN_JSON_NAMESPACE_END
