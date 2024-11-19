@@ -4426,8 +4426,6 @@ class exception : public std::exception
     /// the id of the exception
     const int id; // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 
-    ~exception() override;
-
   protected:
     JSON_HEDLEY_NON_NULL(3)
     exception(int id_, const char* what_arg) : id(id_), m(what_arg) {} // NOLINT(bugprone-throw-keyword-missing)
@@ -4511,9 +4509,6 @@ class exception : public std::exception
     /// an exception object as storage for error messages
     std::runtime_error m;
 };
-
-// out-of-line definition for exception to fix weak-vtables warning
-exception::~exception() = default;
 
 /// @brief exception indicating a parse error
 /// @sa https://json.nlohmann.me/api/basic_json/parse_error/
