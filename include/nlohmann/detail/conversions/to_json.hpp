@@ -435,7 +435,7 @@ inline void to_json(BasicJsonType& j, const T& t)
 template<typename BasicJsonType>
 inline void to_json(BasicJsonType& j, const std_fs::path& p)
 {
-    j = p.string();
+    j = p.u8string();
 }
 #endif
 
