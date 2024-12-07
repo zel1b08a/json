@@ -440,7 +440,6 @@ inline void to_json(BasicJsonType& j, const std_fs::path& p)
 #else
     j = p.u8string();
 #endif
-
 }
 #endif
 
