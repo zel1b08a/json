@@ -435,7 +435,12 @@ inline void to_json(BasicJsonType& j, const T& t)
 template<typename BasicJsonType>
 inline void to_json(BasicJsonType& j, const std_fs::path& p)
 {
+#if defined __cpp_lib_char8_t
+    j = reinterpret_cast<char const*>(p.u8string().data());
+#else
     j = p.u8string();
+#endif
+
 }
 #endif
 
