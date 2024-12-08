@@ -40,7 +40,7 @@ endif()
 option(JSON_BuildTests                     "Build the unit tests when BUILD_TESTING is enabled." ${JSON_BuildTests_INIT})
 option(JSON_CI                             "Enable CI build targets." OFF)
 option(JSON_Diagnostics                    "Use extended diagnostic messages." OFF)
-option(JSON_GlobalUDLs                     "Place use-defined string literals in the global namespace." ON)
+option(JSON_GlobalUDLs                     "Place user-defined string literals in the global namespace." ON)
 option(JSON_ImplicitConversions            "Enable implicit conversions." ON)
 option(JSON_DisableEnumSerialization       "Disable default integer enum serialization." OFF)
 option(JSON_LegacyDiscardedValueComparison "Enable legacy discarded value comparison." OFF)
@@ -96,6 +96,10 @@ if (JSON_Diagnostics)
     message(STATUS "Diagnostics enabled")
 endif()
 
+if (NOT JSON_GlobalUDLs)
+    message(STATUS "User-defined string literals are not put in the global namespace")
+endif()
+
 if (JSON_SystemInclude)
     set(NLOHMANN_JSON_SYSTEM_INCLUDE "SYSTEM")
 endif()
@@ -145,6 +149,7 @@ endif()
 CONFIGURE_FILE(
     "${CMAKE_CURRENT_SOURCE_DIR}/cmake/pkg-config.pc.in"
     "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc"
+    @ONLY
 )
 
 ##

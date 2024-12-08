@@ -3,8 +3,7 @@
 // |  |  |__   |  |  | | | |  version 3.11.3
 // |_____|_____|_____|_|___|  https://github.com/nlohmann/json
 //
-// Copyright (c) 2013-2022 Niels Lohmann <http://nlohmann.me>.
-// SPDX-FileCopyrightText: 2013-2023 Niels Lohmann <https://nlohmann.me>
+// SPDX-FileCopyrightText: 2013 - 2024 Niels Lohmann <https://nlohmann.me>
 // SPDX-License-Identifier: MIT
 
 #include "doctest_compatibility.h"
@@ -361,6 +360,10 @@ TEST_CASE("deserialization")
                 "start_object()", "key(one)", "number_unsigned(1)",
                 "end_object()", "parse_error(29)"
             }));
+
+            const char* string = nullptr;
+            CHECK_THROWS_WITH_AS(_ = json::parse(string), "[json.exception.parse_error.101] parse error: attempting to parse an empty input; check that your input string or stream contains the expected JSON", json::parse_error&);
+            CHECK_THROWS_WITH_AS(_ = json::parse(nullptr), "[json.exception.parse_error.101] parse error: attempting to parse an empty input; check that your input string or stream contains the expected JSON", json::parse_error&);
         }
 
         SECTION("operator<<")
